@@ -1,3 +1,12 @@
+node_modules/
+venv/
+__pycache__/
+.terraform/
+build/
+dist/
+*.log
+*.zip
+
 .DS_Store
 *.tfvars
 .terraform
