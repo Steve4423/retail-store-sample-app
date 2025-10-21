@@ -4,13 +4,9 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'terraform/eks/minimal/**'
   pull_request:
     branches:
       - main
-    paths:
-      - 'terraform/eks/minimal/**'
 
 env:
   TF_VERSION: "1.5.0"
@@ -21,7 +17,7 @@ jobs:
     name: "Terraform Plan"
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -39,18 +35,18 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Terraform Init
-        working-directory: terraform/eks/minimal
+        working-directory: terraform/eks/default
         run: terraform init
 
       - name: Terraform Plan
-        working-directory: terraform/eks/minimal
+        working-directory: terraform/eks/default
         run: terraform plan -no-color
 
   terraform-apply:
     name: "Terraform Apply"
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -68,9 +64,9 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Terraform Init
-        working-directory: terraform/eks/minimal
+        working-directory: terraform/eks/default
         run: terraform init
 
       - name: Terraform Apply
-        working-directory: terraform/eks/minimal
+        working-directory: terraform/eks/default
         run: terraform apply -auto-approve
